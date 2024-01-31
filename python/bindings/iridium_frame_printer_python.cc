@@ -30,31 +30,16 @@ namespace py = pybind11;
 void bind_iridium_frame_printer(py::module& m)
 {
 
-    using iridium_frame_printer    = ::gr::iridium::iridium_frame_printer;
+    using iridium_frame_printer = ::gr::iridium::iridium_frame_printer;
 
 
-    py::class_<iridium_frame_printer, gr::block, gr::basic_block,
-        std::shared_ptr<iridium_frame_printer>>(m, "iridium_frame_printer", D(iridium_frame_printer))
+    py::class_<iridium_frame_printer,
+               gr::block,
+               gr::basic_block,
+               std::shared_ptr<iridium_frame_printer>>(
+        m, "iridium_frame_printer", D(iridium_frame_printer))
 
         .def(py::init(&iridium_frame_printer::make),
-           py::arg("file_info"),
-           D(iridium_frame_printer,make)
-        )
-        
-
-
-
-        ;
-
-
-
-
+             py::arg("file_info"),
+             D(iridium_frame_printer, make));
 }
-
-
-
-
-
-
-
-

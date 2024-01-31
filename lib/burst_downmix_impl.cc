@@ -33,6 +33,7 @@
 
 #include <gnuradio/filter/firdes.h>
 #include <inttypes.h>
+#include <stdio.h>
 #include <volk/volk.h>
 
 namespace gr {
@@ -45,6 +46,7 @@ void write_data_c(const gr_complex* data, size_t len, char* name, int num)
     sprintf(filename, "/tmp/signals/%s-%d.cfile", name, num);
     FILE* fp = fopen(filename, "wb");
     fwrite(data, sizeof(gr_complex), len, fp);
+    std::cout << "Written " << len << " complex samples to " << filename << std::endl;
     fclose(fp);
 }
 
@@ -127,7 +129,7 @@ burst_downmix_impl::burst_downmix_impl(int output_sample_rate,
       // (Frames with a 64 symbol preamble will use 26 symbols of the preamble)
       d_cfo_est_fft_size(pow(
           2,
-          int(log(d_output_samples_per_symbol*(::iridium::PREAMBLE_LENGTH_SHORT + 10)) /
+          int(log(d_output_samples_per_symbol * (::iridium::PREAMBLE_LENGTH_SHORT + 10)) /
               log(2)))),
 
       d_fft_over_size_facor(16),

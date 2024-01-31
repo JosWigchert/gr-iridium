@@ -407,6 +407,10 @@ void iridium_qpsk_demod_impl::handler(int channel, pmt::pmt_t msg)
     pdu_meta =
         pmt::dict_add(pdu_meta, pmt::mp("direction"), pmt::mp((int)(ul_uw_ok ? 1 : 0)));
 
+    // Add the IQ sampes to the dictionary
+    pmt::pmt_t pdu_iq_comp = pmt::init_c32vector(n_symbols, d_burst_after_pll);
+    pdu_meta = pmt::dict_add(pdu_meta, pmt::mp("iq_comp"), pdu_iq_comp);
+
     pmt::pmt_t out_msg = pmt::cons(pdu_meta, pdu_vector);
     message_port_pub(pmt::mp("pdus"), out_msg);
 }
