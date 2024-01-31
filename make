@@ -1,7 +1,8 @@
 #!/bin/bash
 
-build -B build
-build --build build - j 12
-sudo build --install build
+../remove_files build/install_manifest.txt
+cmake -B build
+cmake --build build - j 12
+sudo cmake --install build
 sudo ldconfig
 
