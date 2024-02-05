@@ -20,7 +20,6 @@ namespace iridium {
 
 iridium_frame_printer::sptr iridium_frame_printer::make(std::string file_info)
 {
-    std::cout << "iridium_frame_printer::make + IQ" << std::endl;
     return gnuradio::make_block_sptr<iridium_frame_printer_impl>(file_info);
 }
 
@@ -84,7 +83,7 @@ void iridium_frame_printer_impl::handler(const pmt::pmt_t& msg)
         d_file_info = "i-" + std::to_string(d_t0 / 1000000000ULL) + "-t1";
     }
 
-    std::cout << "RAW: + IQ: " << d_file_info << " ";
+    std::cout << "RAW+IQ: " << d_file_info << " ";
     std::cout << format("%012.4f ") % ((timestamp - d_t0) / 1000000.);
     std::cout << format("%010d ") % int(center_frequency + 0.5);
     std::cout << format("N:%05.2f%+06.2f ") % magnitude % noise;
@@ -101,10 +100,12 @@ void iridium_frame_printer_impl::handler(const pmt::pmt_t& msg)
 
     pmt::pmt_t pdu_iq_comp = pmt::dict_ref(meta, pmt::mp("iq_comp"), pmt::PMT_NIL);
     auto iq_comp = pmt::c32vector_elements(pdu_iq_comp);
-    std::cout << " test? ";
+
+    std::cout << " [";
     for (const auto iq : iq_comp) {
-        std::cout << "(" << iq.real() << " + " << iq.imag() << ")";
+        std::cout << format("(%d,%d)") % iq.real() % iq.imag();
     }
+    std::cout << "]";
 
     std::cout << std::endl;
 }
